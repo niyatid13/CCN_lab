@@ -1,0 +1,27 @@
+//crc scilab
+clc;
+clear;
+x = poly(0, "x");
+m=[1 0 0 1];   //Message bits
+disp("Message bits",m);
+[r,c]=size(m)
+L=c-1;         // no. of zeros to be appended
+z=zeros(1,L)
+m1=cat(2,m,z)
+m1=flipdim(m1,dim=2);
+m_p=poly(m1,"x","coeff");     // Dividend polynomial
+
+g_p = x^3+x+1;  //generator polynomial /divisor polynomial
+g=coeff(g_p)
+g=flipdim(g,dim=2);
+disp("Generator polynomial",g);
+
+[r,q]=pdiv(m_p,g_p)
+
+crc=coeff(r)
+crc=flipdim(crc,dim=2);
+disp("crc bits",crc)
+
+c=cat(2,m,crc)
+disp("crc code",c)
+
